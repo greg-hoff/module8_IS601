@@ -22,11 +22,12 @@ templates = Jinja2Templates(directory="templates")
 class OperationRequest(BaseModel):
     a: float = Field(..., description="The first number")
     b: float = Field(..., description="The second number")
+    c: float = Field(..., description="The third number")
 
-    @field_validator('a', 'b')  # Correct decorator for Pydantic 1.x
+    @field_validator('a', 'b', 'c')  # Correct decorator for Pydantic 1.x
     def validate_numbers(cls, value):
         if not isinstance(value, (int, float)):
-            raise ValueError('Both a and b must be numbers.')
+            raise ValueError('All inputs must be numbers.')
         return value
 
 # Pydantic model for successful response
@@ -66,10 +67,10 @@ async def read_root(request: Request):
 @app.post("/add", response_model=OperationResponse, responses={400: {"model": ErrorResponse}})
 async def add_route(operation: OperationRequest):
     """
-    Add two numbers.
+    Add three numbers.
     """
     try:
-        result = add(operation.a, operation.b)
+        result = add(operation.a, operation.b, operation.c)
         return OperationResponse(result=result)
     except Exception as e:
         logger.error(f"Add Operation Error: {str(e)}")

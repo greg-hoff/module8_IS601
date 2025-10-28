@@ -149,17 +149,26 @@
             - placeholder="First number": Displays the text "First number" inside the input field as a hint to the user.
         -->
         
-        <input type="number" id="b" placeholder="Second number"><br>
+        <input type="number" id="b" placeholder="Second number">
         <!--
             <input> Element: Second Number Input
             
             - type="number": Specifies that the input should accept numeric values.
             - id="b": Assigns a unique identifier "b" to this input, allowing it to be accessed via JavaScript.
             - placeholder="Second number": Displays the text "Second number" inside the input field as a hint to the user.
+        -->
+        
+        <input type="number" id="c" placeholder="Third number"><br>
+        <!--
+            <input> Element: Third Number Input
+            
+            - type="number": Specifies that the input should accept numeric values.
+            - id="c": Assigns a unique identifier "c" to this input, allowing it to be accessed via JavaScript.
+            - placeholder="Third number": Displays the text "Third number" inside the input field as a hint to the user.
             
             <br> Tag: Line Break
             
-            Inserts a line break after the second input field, moving subsequent elements to the next line.
+            Inserts a line break after the third input field, moving subsequent elements to the next line.
         -->
         
         <button onclick="calculate('add')">Add</button>
@@ -247,6 +256,9 @@
             // Retrieve the value of the second input field (ID: 'b') and parse it as a float
             const b = parseFloat(document.getElementById('b').value);
             
+            // Retrieve the value of the third input field (ID: 'c') and parse it as a float
+            const c = parseFloat(document.getElementById('c').value);
+            
             // Get the <div> element where the result or error message will be displayed
             const resultElement = document.getElementById('result');
     
@@ -262,13 +274,13 @@
                     - headers: { 'Content-Type': 'application/json' }: Sets the 'Content-Type' header to 'application/json',
                       informing the server that the request body contains JSON data.
                       
-                    - body: JSON.stringify({ a: a, b: b }): Converts the JavaScript object { a: a, b: b } into a JSON string
+                    - body: JSON.stringify({ a: a, b: b, c: c }): Converts the JavaScript object { a: a, b: b, c: c } into a JSON string
                       to be sent in the request body.
                 */
                 const response = await fetch('/' + operation, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ a: a, b: b })
+                    body: JSON.stringify({ a: a, b: b, c: c })
                 });
                 
                 // Await and parse the response as JSON

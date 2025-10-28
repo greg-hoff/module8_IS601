@@ -36,18 +36,18 @@ def test_add_api(client):
     in the JSON payload and returns the expected result.
 
     Steps:
-    1. Send a POST request to the `/add` endpoint with JSON data `{'a': 10, 'b': 5}`.
+    1. Send a POST request to the `/add` endpoint with JSON data `{'a': 10, 'b': 5, 'c': 1}`.
     2. Assert that the response status code is `200 OK`.
-    3. Assert that the JSON response contains the correct result (`15`).
+    3. Assert that the JSON response contains the correct result (`16`).
     """
     # Send a POST request to the '/add' endpoint with JSON payload
-    response = client.post('/add', json={'a': 10, 'b': 5})
+    response = client.post('/add', json={'a': 10, 'b': 5, 'c': 1})
     
     # Assert that the response status code is 200 (OK)
     assert response.status_code == 200, f"Expected status code 200, got {response.status_code}"
     
     # Assert that the JSON response contains the correct 'result' value
-    assert response.json()['result'] == 15, f"Expected result 15, got {response.json()['result']}"
+    assert response.json()['result'] == 16, f"Expected result 16, got {response.json()['result']}"
 
 # ---------------------------------------------
 # Test Function: test_subtract_api

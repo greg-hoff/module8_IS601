@@ -26,22 +26,25 @@ def test_calculator_add(page, fastapi_server):
     Test the addition functionality of the calculator.
 
     This test simulates a user performing an addition operation using the calculator
-    on the frontend. It fills in two numbers, clicks the "Add" button, and verifies
+    on the frontend. It fills in three numbers, clicks the "Add" button, and verifies
     that the result displayed is correct.
     """
     # Navigate the browser to the homepage URL of the FastAPI application.
     page.goto('http://localhost:8000')
     
     # Fill in the first number input field (with id 'a') with the value '10'.
-    page.fill('#a', '11')
+    page.fill('#a', '10')
     
     # Fill in the second number input field (with id 'b') with the value '5'.
     page.fill('#b', '5')
     
+    #Fill in the third number input field (with id 'c') with the value '1'.
+    page.fill('#c', '1')
+    
     # Click the button that has the exact text "Add". This triggers the addition operation.
     page.click('button:text("Add")')
     
-    # Use an assertion to check that the text within the result div (with id 'result') is exactly "Result: 15".
+    # Use an assertion to check that the text within the result div (with id 'result') is exactly "Result: 16".
     # This verifies that the addition operation was performed correctly and the result is displayed as expected.
     assert page.inner_text('#result') == 'Calculation Result: 16'
 
@@ -63,6 +66,9 @@ def test_calculator_divide_by_zero(page, fastapi_server):
     
     # Fill in the second number input field (with id 'b') with the value '0', attempting to divide by zero.
     page.fill('#b', '0')
+    
+    # Fill in the third number input field (with id 'c') with the value '1' (not used in division but required by form).
+    page.fill('#c', '1')
     
     # Click the button that has the exact text "Divide". This triggers the division operation.
     page.click('button:text("Divide")')
