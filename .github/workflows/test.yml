@@ -75,8 +75,8 @@ jobs:
        with:
          push: true
          tags: |
-           greg-hoff/module8_is601:latest
-           greg-hoff/module8_is601:${{ github.sha }}
+           greghoff/module8_is601:latest
+           greghoff/module8_is601:${{ github.sha }}
          platforms: linux/amd64,linux/arm64
-         cache-from: type=registry,ref=greg-hoff/module8_is601:cache
+         cache-from: type=registry,ref=greghoff/module8_is601:cache
          cache-to: type=inline,mode=max
