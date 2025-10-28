@@ -8,7 +8,7 @@ multiplication, and division of two numbers. These functions are foundational fo
 building more complex applications, such as calculators or financial tools.
 
 Functions:
-- add(a: Union[int, float], b: Union[int, float]) -> Union[int, float]: Returns the sum of a and b.
+- add(a: Union[int, float], b: Union[int, float], c: Union[int, float]) -> Union[int, float]: Returns the sum of a, b, and c.
 - subtract(a: Union[int, float], b: Union[int, float]) -> Union[int, float]: Returns the difference when b is subtracted from a.
 - multiply(a: Union[int, float], b: Union[int, float]) -> Union[int, float]: Returns the product of a and b.
 - divide(a: Union[int, float], b: Union[int, float]) -> float: Returns the quotient when a is divided by b. Raises ValueError if b is zero.
@@ -23,25 +23,28 @@ from typing import Union  # Import Union for type hinting multiple possible type
 # Define a type alias for numbers that can be either int or float
 Number = Union[int, float]
 
-def add(a: Number, b: Number) -> Number:
+def add(a: Number, b: Number, c: Number) -> Number:
     """
-    Add two numbers and return the result.
+    Add three numbers and return the result.
 
     Parameters:
     - a (int or float): The first number to add.
     - b (int or float): The second number to add.
+    - c (int or float): The third number to add.
 
     Returns:
-    - int or float: The sum of a and b.
+    - int or float: The sum of a, b, and c.
 
     Example:
-    >>> add(2, 3)
-    5
-    >>> add(2.5, 3)
-    5.5
+    >>> add(2, 3, 4)
+    9
+    >>> add(2.5, 3, 4)
+    9.5
+    >>> add(2.5, 3, 6)
+    11.5
     """
-    # Perform addition of a and b
-    result = a + b
+    # Perform addition of a, b, and c
+    result = a + b + c
     return result
 
 def subtract(a: Number, b: Number) -> Number:
