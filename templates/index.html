@@ -198,12 +198,14 @@
             - "Multiply": The text displayed on the button.
         -->
         
-        <button onclick="calculate('divide')">Divide</button>
+        <button onclick="calculate('divide')" title="Only the First Number and the Second Number are used to Divide, the Third Number is ignored.">Divide</button>
         <!--
             <button> Element: Divide Button
             
             - onclick="calculate('divide')": Sets up an event handler that calls the JavaScript function "calculate"
               with the argument 'divide' when the button is clicked.
+            - title="Only the First Number and the Second Number are used to Divide": Shows a tooltip when hovering over the button
+              to inform users that division only uses the first two input fields.
             - "Divide": The text displayed on the button.
         -->
         
