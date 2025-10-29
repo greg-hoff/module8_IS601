@@ -23,14 +23,15 @@ from typing import Union  # Import Union for type hinting multiple possible type
 # Define a type alias for numbers that can be either int or float
 Number = Union[int, float]
 
-def add(a: Number, b: Number, c: Number) -> Number:
+def add(a: Number, b: Number, c: Number = 0) -> Number:
     """
     Add three numbers and return the result.
+    If c is not provided, it defaults to 0 (no change to the result).
 
     Parameters:
     - a (int or float): The first number to add.
     - b (int or float): The second number to add.
-    - c (int or float): The third number to add.
+    - c (int or float, optional): The third number to add. Defaults to 0.
 
     Returns:
     - int or float: The sum of a, b, and c.
@@ -42,54 +43,64 @@ def add(a: Number, b: Number, c: Number) -> Number:
     9.5
     >>> add(2.5, 3, 6)
     11.5
+    >>> add(2, 3)  # c defaults to 0
+    5
     """
     # Perform addition of a, b, and c
     result = a + b + c
     return result
 
-def subtract(a: Number, b: Number) -> Number:
+def subtract(a: Number, b: Number, c: Number = 0) -> Number:
     """
-    Subtract the second number from the first and return the result.
+    Subtract the second and third numbers from the first and return the result.
+    If c is not provided, it defaults to 0 (no change to the result).
 
     Parameters:
     - a (int or float): The number from which to subtract.
     - b (int or float): The number to subtract.
+    - c (int or float, optional): The second number to subtract. Defaults to 0.
 
     Returns:
-    - int or float: The difference between a and b.
+    - int or float: The difference between a and b and c.
 
     Example:
-    >>> subtract(5, 3)
+    >>> subtract(5, 3, 1)
+    1
+    >>> subtract(5.5, 2, 0.5)
+    3.0
+    >>> subtract(5, 3)  # c defaults to 0
     2
-    >>> subtract(5.5, 2)
-    3.5
     """
-    # Perform subtraction of b from a
-    result = a - b
+    # Perform subtraction of b and c from a
+    result = a - b - c
     return result
 
-def multiply(a: Number, b: Number) -> Number:
+def multiply(a: Number, b: Number, c: Number = 1) -> Number:
     """
-    Multiply two numbers and return the product.
+    Multiply three numbers and return the product.
+    If c is not provided, it defaults to 1 (no change to the result).
 
     Parameters:
     - a (int or float): The first number to multiply.
     - b (int or float): The second number to multiply.
+    - c (int or float, optional): The third number to multiply. Defaults to 1.
 
     Returns:
-    - int or float: The product of a and b.
+    - int or float: The product of a, b, and c.
 
     Example:
-    >>> multiply(2, 3)
+    >>> multiply(2, 3, 4)
+    24
+    >>> multiply(2.5, 4, 10)
+    100.0
+    >>> multiply(2, 3)  # c defaults to 1
     6
-    >>> multiply(2.5, 4)
-    10.0
     """
-    # Perform multiplication of a and b
-    result = a * b
+    # Perform multiplication of a, b, and c
+    result = a * b * c
     return result
 
-def divide(a: Number, b: Number) -> float:
+def divide(a: Number, b: Number,) -> float:
     """
     Divide the first number by the second and return the quotient.
 

@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field, field_validator  # Use @validator for Pydantic 1.x
 from fastapi.exceptions import RequestValidationError
 from app.operations import add, subtract, multiply, divide  # Ensure correct import path
+from typing import Optional  # Add this import
 import uvicorn
 import logging
 
@@ -22,12 +23,18 @@ templates = Jinja2Templates(directory="templates")
 class OperationRequest(BaseModel):
     a: float = Field(..., description="The first number")
     b: float = Field(..., description="The second number")
-    c: float = Field(..., description="The third number")
+    c: Optional[float] = Field(None, description="The third number (optional)")
 
-    @field_validator('a', 'b', 'c')  # Correct decorator for Pydantic 1.x
+    @field_validator('a', 'b')  # Only validate required fields
     def validate_numbers(cls, value):
         if not isinstance(value, (int, float)):
             raise ValueError('All inputs must be numbers.')
+        return value
+    
+    @field_validator('c')  # Separate validator for optional c
+    def validate_c(cls, value):
+        if value is not None and not isinstance(value, (int, float)):
+            raise ValueError('c must be a number if provided.')
         return value
 
 # Pydantic model for successful response
@@ -67,10 +74,12 @@ async def read_root(request: Request):
 @app.post("/add", response_model=OperationResponse, responses={400: {"model": ErrorResponse}})
 async def add_route(operation: OperationRequest):
     """
-    Add three numbers.
+    Add three numbers. If c is not provided, defaults to 0.
     """
     try:
-        result = add(operation.a, operation.b, operation.c)
+        # Use 0 as default for addition (doesn't change the result)
+        c_value = operation.c if operation.c is not None else 0
+        result = add(operation.a, operation.b, c_value)
         return OperationResponse(result=result)
     except Exception as e:
         logger.error(f"Add Operation Error: {str(e)}")
@@ -79,10 +88,12 @@ async def add_route(operation: OperationRequest):
 @app.post("/subtract", response_model=OperationResponse, responses={400: {"model": ErrorResponse}})
 async def subtract_route(operation: OperationRequest):
     """
-    Subtract two numbers.
+    Subtract two or three numbers. If c is not provided, defaults to 0.
     """
     try:
-        result = subtract(operation.a, operation.b)
+        # Use 0 as default for subtraction (doesn't change the result)
+        c_value = operation.c if operation.c is not None else 0
+        result = subtract(operation.a, operation.b, c_value)
         return OperationResponse(result=result)
     except Exception as e:
         logger.error(f"Subtract Operation Error: {str(e)}")
@@ -91,10 +102,12 @@ async def subtract_route(operation: OperationRequest):
 @app.post("/multiply", response_model=OperationResponse, responses={400: {"model": ErrorResponse}})
 async def multiply_route(operation: OperationRequest):
     """
-    Multiply two numbers.
+    Multiply two or three numbers. If c is not provided, defaults to 1.
     """
     try:
-        result = multiply(operation.a, operation.b)
+        # Use 1 as default for multiplication (doesn't change the result)
+        c_value = operation.c if operation.c is not None else 1
+        result = multiply(operation.a, operation.b, c_value)
         return OperationResponse(result=result)
     except Exception as e:
         logger.error(f"Multiply Operation Error: {str(e)}")
@@ -103,7 +116,7 @@ async def multiply_route(operation: OperationRequest):
 @app.post("/divide", response_model=OperationResponse, responses={400: {"model": ErrorResponse}})
 async def divide_route(operation: OperationRequest):
     """
-    Divide two numbers.
+    Divide two numbers. (c parameter is ignored for division)
     """
     try:
         result = divide(operation.a, operation.b)
@@ -114,6 +127,6 @@ async def divide_route(operation: OperationRequest):
     except Exception as e:
         logger.error(f"Divide Operation Internal Error: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
-
+    
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
