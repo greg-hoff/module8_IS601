@@ -11,14 +11,14 @@ def fastapi_server():
     """
     Fixture to start the FastAPI server before E2E tests and stop it after tests complete.
     """
-    # Start FastAPI app
-    fastapi_process = subprocess.Popen(['python', 'main.py'])
+    # Start FastAPI app - use python3 for better CI compatibility
+    fastapi_process = subprocess.Popen(['python3', 'main.py'])
     
     # Define the URL to check if the server is up
     server_url = 'http://127.0.0.1:8000/'
     
     # Wait for the server to start by polling the root endpoint
-    timeout = 30  # seconds
+    timeout = 60  # seconds - increased timeout for CI environments
     start_time = time.time()
     server_up = False
     
@@ -26,18 +26,23 @@ def fastapi_server():
     
     while time.time() - start_time < timeout:
         try:
-            response = requests.get(server_url)
+            response = requests.get(server_url, timeout=5)
             if response.status_code == 200:
                 server_up = True
                 print("FastAPI server is up and running.")
                 break
         except requests.exceptions.ConnectionError:
             pass
-        time.sleep(1)
+        except requests.exceptions.Timeout:
+            pass
+        time.sleep(2)  # Increased sleep time for slower CI environments
     
     if not server_up:
         fastapi_process.terminate()
         raise RuntimeError("FastAPI server failed to start within timeout period.")
+    
+    # Additional wait to ensure server is fully ready
+    time.sleep(3)
     
     yield
     
