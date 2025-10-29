@@ -257,7 +257,9 @@
             const b = parseFloat(document.getElementById('b').value);
             
             // Retrieve the value of the third input field (ID: 'c') and parse it as a float
-            const c = parseFloat(document.getElementById('c').value);
+            // If the field is empty, use null instead of NaN
+            const cValue = document.getElementById('c').value;
+            const c = cValue === '' ? null : parseFloat(cValue);
             
             // Get the <div> element where the result or error message will be displayed
             const resultElement = document.getElementById('result');
@@ -275,7 +277,7 @@
                       informing the server that the request body contains JSON data.
                       
                     - body: JSON.stringify({ a: a, b: b, c: c }): Converts the JavaScript object { a: a, b: b, c: c } into a JSON string
-                      to be sent in the request body.
+                      to be sent in the request body. The c value will be null if the input was empty.
                 */
                 const response = await fetch('/' + operation, {
                     method: 'POST',
