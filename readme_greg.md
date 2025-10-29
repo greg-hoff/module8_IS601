@@ -12,7 +12,11 @@
     d. revised all tests so that third parameter is accepted. add, subt, mult may use 2 or 3 inputs
     e. division ignores third input
 4. added tooltip to division button to signal that the third input is ignored.
-
+5. updated starlette and fastapi to fix security error.
+6. built latest program version
+    recorded demo
+    apologies for submitting the assignment late, work and life got in the way.
+    had a lot of fun with this one though.
 
 
     Dockerhub URL: 
